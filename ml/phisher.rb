@@ -6,7 +6,7 @@ class Phisher
     attr_accessor :knn
 
     def initialize
-        @knn = Knn.new(k:10)
+        @knn = Knn.new(k:9)
         @pre_processor = PreProcessor.new
         @pre_processor.load
     end

@@ -23,7 +23,7 @@ class TweetCollector
             load(site, true)
         end
         unsafe_sites.each do |site|
-            load(site, true)
+            load(site, false)
         end
     end
 

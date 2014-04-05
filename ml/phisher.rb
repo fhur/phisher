@@ -44,8 +44,7 @@ class Phisher
         results = @tweeter_search.search(domain)
         hash = to_hash(results, domain)
         features = @pre_processor.get_features(hash)
-        is_safe = @knn.classify(features) == 0
-        return is_safe
+        return @knn.classify(features)
     end
 
     def to_hash(tweets, domain)

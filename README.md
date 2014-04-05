@@ -47,6 +47,11 @@ is_phishing = phisher.classify("google.com")
 # => false
 ```
 
+If you are lazy (like me :) ) you can simply call `ruby example.rb`
+Note that every classify requests makes requests to the twitter API so
+it may actually take a few secs for the response to arrive (depending on
+you interwebz connection)
+
 TODO
 ----
 This project is currently using my twitter api keys so you can only make about 150 requests/15 minutes

@@ -1,6 +1,8 @@
 Phisher
 =======
 
+(Note: this documentation is currently broken)
+
 Simple phishing detection based on twitter api
 
 Installation

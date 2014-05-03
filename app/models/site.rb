@@ -18,8 +18,12 @@ class Site < ActiveRecord::Base
     return rating < 0.5
   end
 
+  alias :phishy :phishy?
+
+  # returns a hash containind the followin keys:
+  # [:url, :blacklisted, :whitelisted, :rating, :phishy ]
   def to_verify_json
-    fields = [:url, :blacklisted, :whitelisted, :rating, :phishy? ]
+    fields = [:url, :blacklisted, :whitelisted, :rating, :phishy ]
     res = fields.map { |field| [field, self.send(field) ] }
     return Hash[res]
   end

@@ -1,5 +1,10 @@
 class Site < ActiveRecord::Base
 
+  validates :url, presence: true
+  validates :blacklisted, presence: true
+  validates :whitelisted, presence: true
+  validates :rating, presence: true
+
   # returns true if the site is unsafe
   # A site is considered unsafe if it has a low rating or if it is blacklisted
   # A site is considered safe if it has a high rating or if it is whitelisted
@@ -17,6 +22,7 @@ class Site < ActiveRecord::Base
   def self.create(url: nil)
     site = Site.new
     site.blacklisted = false
+    site.whitelisted = false
     site.rating = 0.5
     site.url = url
     return site

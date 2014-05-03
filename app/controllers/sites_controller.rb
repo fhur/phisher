@@ -1,11 +1,17 @@
 class SitesController < ApplicationController
 
   def show
+    site = Site.find(params[:id])
+    respond_with json: site
+  rescue ActiveRecord::RecordNotFound
+    respond_message message: "site not found", status: 404
   end
 
   def create
     site = Site.new(params[:site])
     site.save!
+  rescue ActiveRecord::RecordInvalid => e
+    respond_message message: e.message, status: 400
   end
 
   def update

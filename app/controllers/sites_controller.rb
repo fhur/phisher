@@ -1,0 +1,33 @@
+class SitesController < ApplicationController
+
+  def show
+  end
+
+  def create
+    site = Site.new(params[:site])
+    site.save!
+  end
+
+  def update
+    site = Site.find(params[:id])
+    update = site.update params[:site]
+    if update
+      respond_message "site update successful", status: 200
+    else
+      respond_message "site update failed for some unknown reason", status: 500
+    end
+  rescue ActiveRecord::RecordNotFound
+    respond_message "site not found", status: 404
+  rescue ActiveRecord::UnknownAttributeError
+    respond_message "incorrect params", status: 400
+  end
+
+  def destroy
+    deleted = Site.delete params[:id]
+    if deleted > 0
+      respond_message "site deleted successfully", status: 200
+    else
+      respond_message message: "site not found", status: 404
+    end
+  end
+end

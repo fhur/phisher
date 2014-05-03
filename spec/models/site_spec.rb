@@ -28,6 +28,11 @@ describe Site do
       safe_site.blacklisted = true
       expect(safe_site.phishy?).to be_truthy
     end
+
+    it 'should not be phishy if whitelisted' do
+      safe_site.whitelisted = true
+      expect(safe_site.phishy?).to be_falsy
+    end
   end
 
 

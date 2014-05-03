@@ -1,6 +1,14 @@
 class Site < ActiveRecord::Base
 
+  # returns true if the site is unsafe
+  # A site is considered unsafe if it has a low rating or if it is blacklisted
+  # A site is considered safe if it has a high rating or if it is whitelisted
   def phishy?
+    if blacklisted? and whitelisted?
+      raise Error, "site #{url} cannot be whitelisted and blacklisted at the same time"
+    end
+
+    return false if whitelisted?
     return true if blacklisted?
     return rating < 0.5
   end

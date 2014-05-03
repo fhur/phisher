@@ -1,8 +1,8 @@
 class Site < ActiveRecord::Base
 
   validates :url, presence: true
-  validates :blacklisted, presence: true
-  validates :whitelisted, presence: true
+  validates :blacklisted, :inclusion => {:in => [true, false]}
+  validates :whitelisted, :inclusion => {:in => [true, false]}
   validates :rating, presence: true
 
   # returns true if the site is unsafe

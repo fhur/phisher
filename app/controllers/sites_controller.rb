@@ -7,7 +7,7 @@ class SitesController < ApplicationController
   #
   def verify
     url = params[:url]
-    site = Site.find_by_url
+    site = Site.find_by_url url
     if site
       render json: site.to_json, status: 200
     else

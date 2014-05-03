@@ -18,6 +18,12 @@ class Site < ActiveRecord::Base
     return rating < 0.5
   end
 
+  def to_verify_json
+    fields = [:url, :blacklisted, :whitelisted, :rating, :phishy? ]
+    res = fields.map { |field| [field, self.send(field) ] }
+    return Hash[res]
+  end
+
   # Creates a new site with reasonable defaults
   def self.create(url: nil)
     site = Site.new

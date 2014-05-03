@@ -7,6 +7,17 @@ class SitesController < ApplicationController
     respond_message message: "site not found", status: 404
   end
 
+  def verify
+    url = params[:url]
+    site = Site.find_by_url
+    if site
+
+      render json: site.to_json, status: 200
+    else
+      respond_message message: "site not found with url #{url}", status: 404
+    end
+  end
+
   def create
     site = Site.new(params[:site])
     site.save!

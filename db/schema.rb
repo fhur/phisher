@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140503031843) do
+ActiveRecord::Schema.define(version: 20140503035048) do
 
   create_table "sites", force: true do |t|
     t.string   "url"
     t.float    "rating"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "blacklisted"
   end
 
 end

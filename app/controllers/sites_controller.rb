@@ -1,17 +1,14 @@
 class SitesController < ApplicationController
 
-  def show
-    site = Site.find(params[:id])
-    respond_with json: site
-  rescue ActiveRecord::RecordNotFound
-    respond_message message: "site not found", status: 404
-  end
-
+  # GET /sites/verify?url={url}
+  # returns phishing data related to a given url
+  # params
+  #   {string}  url the url of the site that will be searched for
+  #
   def verify
     url = params[:url]
     site = Site.find_by_url
     if site
-
       render json: site.to_json, status: 200
     else
       respond_message message: "site not found with url #{url}", status: 404
@@ -25,6 +22,11 @@ class SitesController < ApplicationController
     respond_message message: e.message, status: 400
   end
 
+  # PUT /sites/:id
+  # updates the state of a site
+  # params
+  #   {number}  id    the if of the site that will be modified
+  #   {hash}    site  a hash containing the fields and values that will be changed
   def update
     site = Site.find(params[:id])
     update = site.update params[:site]

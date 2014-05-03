@@ -35,5 +35,11 @@ describe Site do
     end
   end
 
+  it 'should raise or if a site is both whitelisted and blacklisted' do
+    safe_site.whitelisted = true
+    safe_site.blacklisted = true
+    expect { safe_site.phishy? }.to raise_error
+  end
+
 
 end

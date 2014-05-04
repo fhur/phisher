@@ -5,6 +5,8 @@ class Site < ActiveRecord::Base
   validates :whitelisted, :inclusion => {:in => [true, false]}
   validates :rating, presence: true
 
+  has_many :tweets
+
   # returns true if the site is unsafe
   # A site is considered unsafe if it has a low rating or if it is blacklisted
   # A site is considered safe if it has a high rating or if it is whitelisted

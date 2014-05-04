@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Site:</strong>
+  <%= @tweet.site_id %>
+</p>
+
+<p>
+  <strong>Result size:</strong>
+  <%= @tweet.result_size %>
+</p>
+
+<p>
+  <strong>Retweets:</strong>
+  <%= @tweet.retweets %>
+</p>
+
+<p>
+  <strong>Favs:</strong>
+  <%= @tweet.favs %>
+</p>
+
+<%= link_to 'Edit', edit_tweet_path(@tweet) %> |
+<%= link_to 'Back', tweets_path %>

@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :tweets
+
   resources :sites do
     collection do
       get 'verify'

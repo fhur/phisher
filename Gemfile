@@ -43,6 +43,7 @@ group :development, :test do
 end
 
 gem 'searchbing'
+gem 'httparty'
 
 
 

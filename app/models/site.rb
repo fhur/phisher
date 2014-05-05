@@ -1,6 +1,6 @@
 class Site < ActiveRecord::Base
 
-  validates :url, presence: true
+  validates :url, presence: true, uniqueness: true
   validates :blacklisted, :inclusion => {:in => [true, false]}
   validates :whitelisted, :inclusion => {:in => [true, false]}
   validates :rating, presence: true
@@ -38,6 +38,25 @@ class Site < ActiveRecord::Base
     site.rating = 0.5
     site.url = url
     return site
+  end
+
+  # creates a blacklisted site
+  def self.create_blacklisted(url:nil)
+    site = Site.new
+    site.url = url
+    site.blacklisted = true
+    site.whitelisted = false
+    site.rating = 0
+    return site
+  end
+
+  def self.load_blacklist()
+    phish_tank = PhishTank::Api.new ENV['phishtank_api']
+    blacklisted_uris = phish_tank.blacklisted
+    blacklisted_uris.each do |uri|
+      site = Site.create_blacklisted url: uri
+      site.save # this will attempt to save the site, it will fail if the url already exists in the db
+    end
   end
 
 end

@@ -44,6 +44,7 @@ end
 
 gem 'searchbing'
 gem 'httparty'
+gem 'whenever'
 
 
 

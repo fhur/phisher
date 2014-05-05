@@ -35,6 +35,15 @@ describe Site do
     end
   end
 
+  describe 'validators' do
+
+    it 'should not allow dup urls' do
+      site = Site.create url: safe_site.url # create a site with same url as safe_site
+      safe_site.save
+      expect(site.save).to be_falsy
+    end
+  end
+
   it 'should raise or if a site is both whitelisted and blacklisted' do
     safe_site.whitelisted = true
     safe_site.blacklisted = true

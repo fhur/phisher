@@ -24,6 +24,7 @@ class Site < ActiveRecord::Base
 
   # returns a hash containind the followin keys:
   # [:url, :blacklisted, :whitelisted, :rating, :phishy ]
+  # @deprecated this is no longer needed, see views/sites/verify.json.jbuilder instead
   def to_verify_json
     fields = [:url, :blacklisted, :whitelisted, :rating, :phishy ]
     res = fields.map { |field| [field, self.send(field) ] }

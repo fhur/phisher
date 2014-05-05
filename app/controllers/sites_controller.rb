@@ -7,9 +7,9 @@ class SitesController < ApplicationController
   #
   def verify
     url = params[:url]
-    site = Site.find_by_url url
-    if site
-      render json: site.to_verify_json, status: 200
+    @site = Site.find_by_url url
+    if @site
+      render :verify
     else
       respond_message message: "site not found with url #{url}", status: 404
     end

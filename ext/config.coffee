@@ -11,6 +11,7 @@ exports.config =
   files:
     javascripts:
       joinTo:
+        'js/background.js':/^app\/background.coffee/
         'js/app.js': /^app/
         'js/vendor.js': /^(bower_components|vendor)/
 

@@ -1,0 +1,29 @@
+{
+  // Required
+  "manifest_version": 2,
+  "name": "Phishy phisher",
+  "version": "0.0.1",
+
+  // Recommended
+  //"default_locale": "en",
+  "description": "Protect yourself from phishing!",
+
+  //TODO
+  //"icons": {...},
+
+  // Pick one (or none)
+  //"browser_action": {...},
+  //"page_action": {...},
+
+  // Optional
+  //"author": ...,
+  "background": {
+    // Recommended
+    "scripts" : ["js/background.js"]
+  },
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*"
+  ]
+}

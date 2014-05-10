@@ -25,5 +25,15 @@
     "tabs",
     "http://*/*",
     "https://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ],
+      "css": ["css/app.css"],
+      "js": ["js/vendor.js","js/app.js"]
+    }
   ]
 }

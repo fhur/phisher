@@ -7,5 +7,5 @@ class PhisherApi extends BaseApi
         url: args.url
       success: args.success
       error: args.error
-    get(options)
+    @get(options)
 

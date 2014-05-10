@@ -1,6 +1,6 @@
 class BaseApi
 
-  @BASE_URL = 'http://localhost:3000/'
+  @BASE_URL = 'http://localhost:3000'
 
   constructor:()->
 
@@ -10,7 +10,7 @@ class BaseApi
   #   error
   #   params
   get:(options)->
-    $.get
+    $.ajax
       url: BaseApi.BASE_URL+options.url
       type: 'GET'
       success: options.success || ()->

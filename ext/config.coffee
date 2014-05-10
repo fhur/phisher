@@ -11,9 +11,9 @@ exports.config =
   files:
     javascripts:
       joinTo:
-        'js/background.js':/^app\/background.coffee/
-        'js/app.js': /^app/
         'js/vendor.js': /^(bower_components|vendor)/
+        'js/background.js':/^app\/(api|background)|bower_components\/jquery/
+        'js/app.js': /^app/
 
     stylesheets:
       joinTo:

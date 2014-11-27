@@ -18,6 +18,16 @@ class UrlList
     end
     return false
   end
+
+  def << (url)
+    regex = parse(url)
+    @list.push(regex)
+  end
+
+  def size
+    @list.size
+  end
+
 end
 
 class Blacklist < UrlList; end

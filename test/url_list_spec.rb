@@ -33,4 +33,19 @@ describe UrlList do
     end
   end
 
+  describe "<<" do
+
+    it "should increase the size of a UrlList" do
+
+      @list = UrlList.new
+      urls = ['facebook.com','google.com','dropbox.com','github.com/*']
+      urls.each do |url|
+        @list << url
+      end
+      @list.size.must_equal urls.size
+
+    end
+
+  end
+
 end

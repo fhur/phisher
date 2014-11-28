@@ -2,6 +2,11 @@ class Algo
 
   attr_reader :weight
 
+  # Creates a new instance of the algorithm with the given weight
+  #
+  # Arguments:
+  #   {float} weight    the weight assigned to this algorithm.
+  #
   def initialize(weight)
     @weight = weight
   end

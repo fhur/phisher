@@ -19,14 +19,15 @@ class Phisher
     @algos = algos
   end
 
-  # Calcualtes the risk for a given url by testing the url against a blacklist, whitelist and a
-  # set of phishing deteciton algorithms.
+  # Calculates the risk for a given url by testing the url against a blacklist, whitelist and a
+  # set of phishing detection algorithms.
   #
   # This method follows the following rules:
   # 1. If the url is blacklisted then 1 is immediately returned
   # 2. If the url is whitelisted then 0 will be returned
   # 3. If neither (1.) nor (2.) occur then the url is tested agains the list of algorithms provided
-  #    to the Phisher
+  #    to the Phisher. The result is calculated as the weighted average of each algorithm's weight
+  #    multiplied by the algorithm's risk score.
   #
   # Arguments:
   #   {String} url a url to test for safety

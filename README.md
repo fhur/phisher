@@ -1,45 +1,58 @@
 phisher
 -------
 
-Phishing detection gem
+Simple and extensible phishing detection gem.
 
 ## Usage
 
-To import `phisher` simply
+To install `phisher` gem:
 
 ```ruby
 gem install phisher
 ```
 
-## Phishy links
+
+## Checking urls for phishing
 To check if a url is phishy simply call
 ```ruby
-phisher.verify("www.google.com") # => :safe
-phisher.verify("faizbook.nz") # => :phishy
-phisher.verify("someunknownsite.com") # => :unknown
+phisher.verify("www.google.com")
 ```
+`verify` will return a number from 0 to 1 indicating
+how safe is a url where 0 is completely safe and 1
+is completely unsafe
 
 ## Black and White lists
 
-Phisher can be trained to reject any url in a blacklist and verify any
-url in a whitelist.
+`Phisher` comes built in with black and white list phishing detection.
 
 ```ruby
-phisher = Phisher.new
+# You can use * wildcards
+blacklist = ['foo.org/*', 'bar.com', 'baz.nz/*']
+whitelist = ['google.com/*', 'facebook.com/*']
 
-# A list of urls, can optionaly contain wildards i.e. myblog.blogger.com/*
-phisher.blacklist = blacklisted_links
+phisher = Phisher.new blacklist: blacklist, whitelist: whitelist
 
-# A list of whitelisted domains. Can also contain wildcards
-phisher.whitelist = whitelisted_domains
-
+phisher.verify('google.com/whatever') # => 0
+phisher.verify('foo.org/whatever') # => 1
 ```
 
-## Training a Phisher
+
+## Improving Phisher
 
 Black/White lists are great but they do have drawbacks, namely they are
-not easily extensible. To improve Phisher you should train it to detect
-phishing. 
+not easily extensible. To improve `Phisher`'s phishing detection capabilities
+you can add several custom algorithms to your `Phisher` instance as follows
+
+```
+# A list of fishing detection algorithms. Check the lib/algos folder for
+# a list of all supported algorithms.
+algos = [ SearchEngineAlgo.new 0.5, TwitterAlgo.new 0.5 ]
+phisher = Phisher.new algos: algos
+```
+
+## Phishing Algorithms
+
+`Phisher` provides the concept of an 'Algo' (short for algorithm)
 
 ## Contributing to phisher
 

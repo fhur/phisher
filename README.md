@@ -43,7 +43,7 @@ Black/White lists are great but they do have drawbacks, namely they are
 not easily extensible. To improve `Phisher`'s phishing detection capabilities
 you can add several custom algorithms to your `Phisher` instance as follows
 
-```
+```ruby
 # A list of fishing detection algorithms. Check the lib/algos folder for
 # a list of all supported algorithms.
 algos = [ SearchEngineAlgo.new 0.5, TwitterAlgo.new 0.5 ]
@@ -52,7 +52,24 @@ phisher = Phisher.new algos: algos
 
 ## Phishing Algorithms
 
-`Phisher` provides the concept of an 'Algo' (short for algorithm)
+`Phisher` is extensible in the sense that you can supply an arbitrary number of phishing detection algorithms 
+to customize your `Phisher`. Algorithms are supplied to a `Phisher` via the constructor's `algos` parameter.
+You must pass an array of `Algo` subclasses, and the weight of each `Algo` must add `1`.
+
+```ruby
+# You pass an array of algos.
+array_of_algos = [SomeAlgo.new 0.5, SomeOtherAlgo.new 0.3, OtherAlgo.new 0.2]
+Phisher.new algos: array_of_algos
+```
+
+## Available `Algo`s
+
+Check the `/lib/algos` folder for an updated list of available `Algo`s. 
+
+## Implementing your own `Algo`
+
+Implementing an algo is easy, you just need to subclass `Algo` and implement the `risk(url)` method.
+See `Algo` class's documentation for a detailed explanation.
 
 ## Contributing to phisher
 

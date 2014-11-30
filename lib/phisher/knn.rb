@@ -44,7 +44,18 @@ class Knn
     end
   end
 
-  # Returns the class closest to the data point for a given K
+  # Returns the class closest to the data point for a
+  # given K
+  #
+  # Arguments:
+  #   {Array} data an array
+  #   {integer} k the number of classes to consider
+  #   {block} distance an optional block in case you want
+  #           to provide a custom distance function
+  #
+  # Returns:
+  #   The class that the data array should belong to
+  #
   def classify(data, k, &distance)
 
     if distance == nil
@@ -61,12 +72,20 @@ class Knn
     most_frequent(class_frequencies)
   end
 
+  # Classifies an array with the given label.
+  #
+  # Arguments:
+  #   {Array} data the array that will be labeled
+  #   {symbol} label an identifier for the label
+  #
+  # Returns:
+  #   An instance of the training set
   def train(data, label)
     training_point = TrainingPoint.new data, label
     @training_set.push training_point
   end
 
-  
+
 
   private
 
@@ -82,8 +101,10 @@ class Knn
   end
 
   # Given a map of class => frequency(class)
-  # This method returns the class with the highest frequency.
-  # If more than one class has the highest frequency this method can return any of those classes.
+  # This method returns the class with the highest
+  # frequency.
+  # If more than one class has the highest frequency
+  # this method can return any of those classes.
   def most_frequent(class_frequencies)
     most_frequent_class = nil
     highest_frecuency = -1

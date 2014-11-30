@@ -62,7 +62,12 @@ describe Knn do
       1.upto(20) do |i|
         assert_list_inc @knn.training_set, i do
           i.times do
-            @knn.train(@rand_list.(i), :label)
+            data = @rand_list.(i)
+            label = rand.to_s.to_sym
+            result = @knn.train(data, label)
+            point = result.last
+            point.data.must_equal data
+            point.label.must_equal label
           end
         end
       end
@@ -108,6 +113,7 @@ describe Knn do
       @knn.classify([2,2], 2).must_equal :a
       @knn.classify([2,2], 3).must_equal :a
     end
+
   end
 
 end

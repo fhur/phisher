@@ -31,68 +31,70 @@
 
 class Knn
 
-  def initialize(num_classes:2, k:5)
-    @classes = Array.new(num_classes) {[]}
-    @k = k
-  end
+  attr_reader :training_set
+  attr_reader :default_distance
 
-  # Adds a training data point to the Knn instance
-  #
-  # Arguments:
-  #   {Array} data
-  #   {Integer} klass an integer representing a label for the class
-  def train(data, klass)
-    @classes[klass].push data
-  end
-
-  # for each training point, calculate the data and obtain the following set
-  # [distance, class_index]
-  def classify(input)
-    distances = []
-    @classes.each_with_index do |klass, index|
-        distances += klass.map {|ex| [distance(ex, input), index]}
+  def initialize()
+    @training_set = []
+    @default_distance = lambda do |array1, array2|
+      squares_sum = array1.zip(array2).map do |item|
+        (item[0] - item[1])**2
+      end
+      Math.sqrt(squares_sum.reduce(:+))
     end
-    distances.sort!
-    k_dists = distances.first(@k)
-    classes = k_dists.map {|k_dist| k_dist[1]}
-    return most_frequent(classes)
   end
 
-  def distance(a,b)
-    size = [a.size,b.size].min
-    sum = 0
-    size.times do |i|
-      sum += (a[i] - b[i])**2
+  # Returns the class closest to the data point for a given K
+  def classify(data, k, &distance)
+
+    if distance == nil
+      distance = @default_distance
     end
-    return Math.sqrt(sum)
+
+    distances = @training_set.map do |training_point|
+      [ distance.call(training_point.data, data), training_point.label ]
+    end
+    sorted_distances = distances.sort
+    nearest_neightbors = sorted_distances.first(k)
+    classes = nearest_neightbors.map { |neighbor| neighbor[1] }
+    class_frequencies = get_class_frequencies(classes)
+    most_frequent(class_frequencies)
   end
 
-  def get_distances(klass, input)
-    klass.map {|example| distance(input, example)}
+  def train(data, label)
+    training_point = TrainingPoint.new data, label
+    @training_set.push training_point
   end
 
-  # given a list of k_dists, returns the index of the most common
-  # class
-  # @param {Array} k_dists is an array of [distance, class_index] objects
-  def most_frequent(classes)
+  
+
+  private
+
+  # Given an array of where each element is a class label
+  # this method returns the frequency of each label
+  def get_class_frequencies(class_array)
     freqs = {}
-    classes.each do |klass|
-      freqs[klass] = 0 unless freqs[klass]
-      freqs[klass] += 1
+    class_array.each do |clazz|
+      freqs[clazz] = 0 unless freqs[clazz]
+      freqs[clazz] += 1
     end
+    return freqs
+  end
 
-    max_index = 0
-    max_freq = 0
-    freqs.each do |klass,freq|
-      if max_freq < freq
-        max_freq = freq
-        max_index = klass
+  # Given a map of class => frequency(class)
+  # This method returns the class with the highest frequency.
+  # If more than one class has the highest frequency this method can return any of those classes.
+  def most_frequent(class_frequencies)
+    most_frequent_class = nil
+    highest_frecuency = -1
+    class_frequencies.each do |clazz, freq|
+      if freq > highest_frecuency
+        most_frequent_class = clazz
       end
     end
-    return max_index
+    return most_frequent_class
   end
 
-  def data_set
-    @classes
-  end
 end
+
+class TrainingPoint < Struct.new(:data, :label); end

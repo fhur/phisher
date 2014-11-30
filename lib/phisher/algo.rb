@@ -24,7 +24,7 @@ class Algo
   #   A float in [0..1] indicating the risk of the given url
   #
   def risk(url)
-    return 0
+    raise 'Subclasses must override risk(url) method'
   end
 
 end

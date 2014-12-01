@@ -1,14 +1,17 @@
 require 'phisher/algos/search_engine_algo'
 require 'minitest/autorun'
 
+class MockDataSource
+
+  def get(url)
+    [url.size, url.size]
+  end
+end
+
 describe SearchEngineAlgo do
 
   before :each do
-    # a mock fetcher that returns the size
-    # and ranking as the url's size
-    @se_algo = SearchEngineAlgo.new do |url|
-      [url.size, url.size]
-    end
+    @se_algo = SearchEngineAlgo.new(1,MockDataSource.new)
   end
 
   describe 'train' do

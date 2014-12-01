@@ -21,21 +21,22 @@ class SearchEngineAlgo < Algo
   #     Where num_results is the total number of results for the given url
   #     and ranking is the ranking of that url in the top results (0 is top)
   #
-  def initialize(k=5, &fetcher)
+  def initialize(weigth, data_source, k=2)
+    super()
     @k = k
     @knn = Knn.new
-    @data_fetcher = fetcher
+    @data_source = data_source
   end
 
   def train(url, label)
     verify_label label
     # data is an Array of [num_results, ranking]
-    data = @data_fetcher.call(url)
+    data = @data_source.get(url)
     @knn.train data, label
   end
 
   def risk(url)
-    data = @data_fetcher.call(url)
+    data = @data_source.get(url)
     return @knn.classify(data, @k) == :safe ? 0 : 1
   end
 

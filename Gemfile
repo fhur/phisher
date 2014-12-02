@@ -14,3 +14,5 @@ group :development do
 end
 
 gem "faraday", "~> 0.9"
+gem 'twitter', "~> 5.13"
+gem 'daybreak', "~> 0.3"

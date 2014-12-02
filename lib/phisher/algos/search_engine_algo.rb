@@ -3,6 +3,8 @@ require 'phisher/knn'
 
 class SearchEngineAlgo < Algo
 
+  attr_accessor :data_source
+
   #
   # Initializes the SearchEngineAlgo
   #

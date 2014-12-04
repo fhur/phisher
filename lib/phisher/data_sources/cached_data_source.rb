@@ -23,4 +23,9 @@ class CachedDataSource < DataSource
   def fetch(url)
     raise "Unimplemented method fetch(url)"
   end
+
+  # by default this method does nothing.
+  def clean(url)
+    url
+  end
 end

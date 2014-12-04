@@ -24,7 +24,7 @@ class SearchEngineAlgo < Algo
   #     and ranking is the ranking of that url in the top results (0 is top)
   #
   def initialize(weigth, data_source, k=2)
-    super()
+    super(weigth)
     @k = k
     @knn = Knn.new
     @data_source = data_source

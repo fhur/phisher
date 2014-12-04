@@ -12,6 +12,8 @@ doc
 # bundler
 .bundle
 
+*.db
+
 # jeweler generated
 pkg
 

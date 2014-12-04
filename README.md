@@ -62,14 +62,40 @@ array_of_algos = [SomeAlgo.new 0.5, SomeOtherAlgo.new 0.3, OtherAlgo.new 0.2]
 Phisher.new algos: array_of_algos
 ```
 
+An `Algo` is simply a class that takes a url as parameter and returns
+a number between 0 and 1 indicating the probability that the given url
+is phishy.
+
 ## Available `Algo`s
 
-Check the `/lib/algos` folder for an updated list of available `Algo`s. 
+This is a short description of some implemented algos. Check the `/lib/algos`
+folder for an updated list of available `Algo`s.
+
+  - TwitterAlgo
+    The twitter phishing detection algorithm is based on the assumption
+    that reputable Twitter users and reputable tweets will not contain
+    phishy urls. The algorithm works as follows:
+
+    1. Let `u` be the url that will be classified
+    2. serach for `u` in the twitter API.
+    3. Obtain a list of tweets and for each tweet obtain the user that
+       composed that tweet.
+    4. Calculate some 'reputation' indicators (e.g. the average number
+       of followers)
+    5. Classify the tweet given the calculated reputation.
 
 ## Implementing your own `Algo`
 
-Implementing an algo is easy, you just need to subclass `Algo` and implement the `risk(url)` method.
-See `Algo` class's documentation for a detailed explanation.
+Implementing an algo is easy, you just need to subclass `Algo` and
+implement the `risk(url)` method. See `Algo` class's documentation
+for a detailed explanation.
+
+## Important
+
+- This gem does not come with training data, you must train the models
+  yourself.
+- This gem is still in early ALPHA. Do not use for production. API might
+  change without notice.
 
 ## Contributing to phisher
 

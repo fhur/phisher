@@ -71,7 +71,7 @@ is phishy.
 This is a short description of some implemented algos. Check the `/lib/algos`
 folder for an updated list of available `Algo`s.
 
-  - TwitterAlgo
+  - `TwitterAlgo`
     The twitter phishing detection algorithm is based on the assumption
     that reputable Twitter users and reputable tweets will not contain
     phishy urls. The algorithm works as follows:
@@ -83,6 +83,11 @@ folder for an updated list of available `Algo`s.
     4. Calculate some 'reputation' indicators (e.g. the average number
        of followers)
     5. Classify the tweet given the calculated reputation.
+
+  - `DuckDuckGoAlgo`
+    Will search for a url in the duck duck go search engine and use the
+    search results to build a simple ML model. The model will be used to
+    classify the url.
 
 ## Implementing your own `Algo`
 

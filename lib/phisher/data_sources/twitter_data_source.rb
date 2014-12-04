@@ -4,7 +4,7 @@ require 'daybreak'
 
 class TwitterDataSource < DataSource
 
-  def initialize(db_location='.twitter_data_source.db', key=nil, secret=nil)
+  def initialize(db_location:'.twitter_data_source.db', key:, secret:)
     @client = Twitter::REST::Client.new do |config|
       config.consumer_key    = key
       config.consumer_secret = secret

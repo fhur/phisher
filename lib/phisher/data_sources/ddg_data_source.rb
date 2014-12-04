@@ -1,19 +1,17 @@
 require 'faraday'
 require 'uri'
 require 'json'
-require 'daybreak'
-require 'phisher/data_source'
+require 'phisher/data_sources/cached_data_source'
 
 # Cached data source that searches a URL in DuckDuckGo (at api.duckduckgo.com)
 # and fetches the number of related topics and the number of results
-class DDGDataSource < DataSource
+class DDGDataSource < CachedDataSource
 
   URL = 'http://api.duckduckgo.com'
 
   def initialize(db_location='.ddg_data_source.db')
+    super(db_location)
     @conn = Faraday.new(:url => URL)
-    @cache = Daybreak::DB.new(db_location) # initializes an empty cache. This maps url to [related_topics, results]
-    at_exit { @cache.close }
   end
 
   # Given a url this method will return the number of related topics for
@@ -30,15 +28,12 @@ class DDGDataSource < DataSource
   # Returns:
   # An array of [related_topics, results]
   #
-  def get(url)
-    url = clean(url)
-    return @cache[url] if @cache.keys.include? url
+  def fetch(url)
 
     results = search(url)
     data = ['RelatedTopics', 'Results'].map do |key|
       results[key].size
     end
-    @cache.set! url, data
     return data
   end
 

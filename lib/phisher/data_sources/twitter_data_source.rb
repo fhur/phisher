@@ -1,17 +1,15 @@
-require 'phisher/data_source'
+require 'phisher/data_sources/cached_data_source'
 require 'twitter'
-require 'daybreak'
 
-class TwitterDataSource < DataSource
+class TwitterDataSource < CachedDataSource
 
   def initialize(db_location:'.twitter_data_source.db', key:, secret:)
+    super(db_location)
+
     @client = Twitter::REST::Client.new do |config|
       config.consumer_key    = key
       config.consumer_secret = secret
     end
-
-    @cache = Daybreak::DB.new(db_location)
-    at_exit { @cache.close }
   end
 
   # Given a url returns an array with
@@ -36,42 +34,36 @@ class TwitterDataSource < DataSource
   #   - possibly_sensitive: 0 or 1 indicating if the
   #   tweet contains sensitive information or not
   #
-  def get(url)
-    host = clean(url)
+  def fetch(url)
 
-    if @cache.include? host
-      return @cache[host]
-    else
+    # search for tweet results
+    tweet_results = search(host)
 
-      tweet_results = search(host)
-
-      # for each tweet obtain 5 variables and store them
-      # in the 'result_vector'.
-      result_vector = tweet_results.map do |tweet|
-        [
-          tweet.user.followers_count,
-          tweet.user.statuses_count,
-          tweet.retweet_count,
-          tweet.favorite_count,
-          tweet.possibly_sensitive? ? 1 : 0
-        ]
-      end
-
-      # Calculate the sum for each tweet over the 5 dimensions:
-      # total_followers_count, total_statuses_count, total_retweet_count, ...
-      vector_sums = result_vector.inject [0,0,0,0,0] do |memo, obj|
-        memo.zip(obj).map { |vector| vector.reduce(:+) }
-      end
-
-      # Finally obtain the averages for each dimension:
-      # avg_followers_count, avg_statuses_count, ...
-      averages = vector_sums.map do |sum|
-        sum.to_f/result_vector.size
-      end
-
-      # save and return the result.
-      return @cache.set! host, averages
+    # for each tweet obtain 5 variables and store them
+    # in the 'result_vector'.
+    result_vector = tweet_results.map do |tweet|
+      [
+        tweet.user.followers_count,
+        tweet.user.statuses_count,
+        tweet.retweet_count,
+        tweet.favorite_count,
+        tweet.possibly_sensitive? ? 1 : 0
+      ]
     end
+
+    # Calculate the sum for each tweet over the 5 dimensions:
+    # total_followers_count, total_statuses_count, total_retweet_count, ...
+    vector_sums = result_vector.inject [0,0,0,0,0] do |memo, obj|
+      memo.zip(obj).map { |vector| vector.reduce(:+) }
+    end
+
+    # Finally obtain the averages for each dimension:
+    # avg_followers_count, avg_statuses_count, ...
+    averages = vector_sums.map do |sum|
+      sum.to_f/result_vector.size
+    end
+
+    return averages
   end
 
   private

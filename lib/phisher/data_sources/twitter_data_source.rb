@@ -37,7 +37,7 @@ class TwitterDataSource < CachedDataSource
   def fetch(url)
 
     # search for tweet results
-    tweet_results = search(host)
+    tweet_results = search(url)
 
     # for each tweet obtain 5 variables and store them
     # in the 'result_vector'.
@@ -57,10 +57,12 @@ class TwitterDataSource < CachedDataSource
       memo.zip(obj).map { |vector| vector.reduce(:+) }
     end
 
+    size = result_vector.size > 0 ? result_vector.size : 1
+
     # Finally obtain the averages for each dimension:
     # avg_followers_count, avg_statuses_count, ...
     averages = vector_sums.map do |sum|
-      sum.to_f/result_vector.size
+      sum.to_f/size
     end
 
     return averages

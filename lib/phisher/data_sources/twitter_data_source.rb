@@ -3,7 +3,7 @@ require 'twitter'
 
 class TwitterDataSource < CachedDataSource
 
-  def initialize(db_location:'.twitter_data_source.db', key:, secret:)
+  def initialize(db_location:'./pkg/.twitter_data_source.db', key:, secret:)
     super(db_location)
 
     @client = Twitter::REST::Client.new do |config|
@@ -53,7 +53,7 @@ class TwitterDataSource < CachedDataSource
 
     # Calculate the sum for each tweet over the 5 dimensions:
     # total_followers_count, total_statuses_count, total_retweet_count, ...
-    vector_sums = result_vector.inject [0,0,0,0,0] do |memo, obj|
+    vector_sums = result_vector.inject([0] * 5) do |memo, obj|
       memo.zip(obj).map { |vector| vector.reduce(:+) }
     end
 

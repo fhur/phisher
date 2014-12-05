@@ -9,7 +9,7 @@ class DDGDataSource < CachedDataSource
 
   URL = 'http://api.duckduckgo.com'
 
-  def initialize(db_location='.ddg_data_source.db')
+  def initialize(db_location='./pkg/.ddg_data_source.db')
     super(db_location)
     @conn = Faraday.new(:url => URL)
   end

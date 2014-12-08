@@ -17,8 +17,11 @@ file = File.read(path)
 urls = file.split "\n"
 
 urls.each do |url|
-  print "."
-  @ds.get url
+  puts url
+  begin
+    @ds.get url
+  rescue URI::InvalidURIError
+  end
 end
 
 

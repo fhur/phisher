@@ -83,7 +83,7 @@ class TwitterDataSource < CachedDataSource
   # sleep the thread and reply when quota is available again.
   def search(query)
     begin
-      @client.search(query, :result_type => 'recent').to_a
+      @client.search(query, :result_type => 'recent').take(50).to_a
     rescue Twitter::Error::TooManyRequests => error
       sleep error.rate_limit.reset_in + 1
       retry

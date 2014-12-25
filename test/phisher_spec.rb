@@ -5,7 +5,6 @@ require 'phisher/algo'
 class MockAlgo < Algo
 
   def initialize(risk, weight)
-    super(weight)
     @risk = risk
   end
 

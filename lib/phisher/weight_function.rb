@@ -6,7 +6,7 @@ class WeightFunction
 end
 
 # A weighting function that assigns the same weight to every Algo
-class UnformWeightFunction < WeightFunction
+class UniformWeightFunction < WeightFunction
 
   # Returns:
   #   A Hash where the same weight is assigned uniformly to every algo

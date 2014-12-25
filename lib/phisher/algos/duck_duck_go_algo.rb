@@ -1,3 +1,4 @@
+require 'phisher/algos/search_engine_algo'
 
 #
 # The DuckDuckGoAlgo is a very strict subclass of
@@ -17,8 +18,8 @@
 #
 class DuckDuckGoAlgo < SearchEngineAlgo
 
-  def initialize(weight)
-    super(weight, DDGDataSource.new)
+  def initialize()
+    super(DDGDataSource.new)
   end
 
 end

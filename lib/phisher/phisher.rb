@@ -1,10 +1,12 @@
 require 'phisher/url_list'
+require 'phisher/weight_function'
 
 class Phisher
 
   attr_reader :blacklist
   attr_reader :whitelist
   attr_reader :algos
+  attr_reader :weigth_function
 
   # Initializes a Phisher with a whitelist, blacklist and set of phishing detection algorithms
   #
@@ -13,7 +15,7 @@ class Phisher
   #   {Array} whitelist   an array of whitelisted urls as strings
   #   {Array} algos       an array of Algo subclasses
   #
-  def initialize(blacklist: [], whitelist: [], algos: [])
+  def initialize(blacklist: [], whitelist: [], algos: [], weigth_function: UniformWeightFunction.new)
     @blacklist = Blacklist.new blacklist
     @whitelist = Whitelist.new whitelist
     @algos = algos
@@ -46,10 +48,12 @@ class Phisher
     whitelisted = @whitelist.include? url
     return 0 if whitelisted
 
+    weights = @weight_function.weight(@algos, url)
+
     # if the url is neither black nor white listed then calcualte the weighted risk of the url
     # by each registered phishing detection algorithm
     weight_adjusted_risk = @algos.map do |algo|
-      algo.risk(url)*algo.weight
+      algo.risk(url)*weights[algo]
     end
 
     return weight_adjusted_risk.reduce(:+)

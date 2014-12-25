@@ -3,8 +3,8 @@ require 'phisher/data_sources/twitter_data_source'
 
 class TwitterAlgo < SearchEngineAlgo
 
-  def initialize(weight, key, secret)
-    super(weight, TwitterDataSource.new(key: key, secret: secret))
+  def initialize(key, secret)
+    super(TwitterDataSource.new(key: key, secret: secret))
   end
 
 end

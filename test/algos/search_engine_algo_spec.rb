@@ -11,7 +11,7 @@ end
 describe SearchEngineAlgo do
 
   before :each do
-    @se_algo = SearchEngineAlgo.new(1,MockDataSource.new)
+    @se_algo = SearchEngineAlgo.new(MockDataSource.new)
   end
 
   describe 'train' do

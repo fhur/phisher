@@ -4,7 +4,7 @@ require 'phisher/algo'
 
 class MockAlgo < Algo
 
-  def initialize(risk, weight)
+  def initialize(risk)
     @risk = risk
   end
 
@@ -16,12 +16,14 @@ end
 describe Phisher do
 
   before :each do
+    @algos = [ MockAlgo.new(0.5), MockAlgo.new(0.1), MockAlgo.new(0.9)]
+    wf = BlockWeightFunction.new do |algos|
+      { @algos[0] => 0.2, @algos[1] => 0.5, @algos[2] => 0.3 }
+    end
     @whitelist = ['*.foo.com','*.bar.bz','baz.nl/*','qux.org']
     @blacklist = ['lee.com','facebook.com','gmail.nl', 'gmail.nl/*']
-    @algos = [ MockAlgo.new(0.5, 0.2), MockAlgo.new(0.1, 0.5), MockAlgo.new(0.9,0.3)]
-    @phisher = Phisher.new whitelist: @whitelist, blacklist: @blacklist, algos: @algos
+    @phisher = Phisher.new whitelist: @whitelist, blacklist: @blacklist, algos: @algos, weight_function: wf
   end
-
 
   describe 'initialize' do
     it 'should initialize the blacklist' do

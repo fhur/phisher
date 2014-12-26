@@ -6,7 +6,7 @@ class Phisher
   attr_reader :blacklist
   attr_reader :whitelist
   attr_reader :algos
-  attr_reader :weigth_function
+  attr_reader :weight_function
 
   # Initializes a Phisher with a whitelist, blacklist and set of phishing detection algorithms
   #
@@ -15,10 +15,11 @@ class Phisher
   #   {Array} whitelist   an array of whitelisted urls as strings
   #   {Array} algos       an array of Algo subclasses
   #
-  def initialize(blacklist: [], whitelist: [], algos: [], weigth_function: UniformWeightFunction.new)
+  def initialize(blacklist: [], whitelist: [], algos: [], weight_function: UniformWeightFunction.new)
     @blacklist = Blacklist.new blacklist
     @whitelist = Whitelist.new whitelist
     @algos = algos
+    @weight_function = weight_function
   end
 
   # Calculates the risk for a given url by testing the url against a blacklist, whitelist and a
